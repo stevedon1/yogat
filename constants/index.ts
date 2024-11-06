@@ -31,3 +31,23 @@ export const pages: Page[] = [
     path: "/tools-assets",
   },
 ];
+export const stockList = [
+  "250 ML Tumblers",
+  "Lids 250 ML",
+  "500 ML Tumblers",
+  "Lids 500 ML",
+  "Cling",
+  "Straws",
+  "Fare",
+  "Strawberry Flavour",
+  "Vanilla Flavour",
+  "Chocolate Flavour",
+  "Any other Flavour",
+  "Food Colour",
+  "Corn Flour",
+  "Gelatin",
+  "Sugar",
+  "Sweetener",
+  "Culture",
+  "Preservative",
+]
