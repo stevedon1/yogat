@@ -3,11 +3,9 @@ import localFont from "next/font/local";
 import "./globals.css";
 import {
   ClerkProvider,
-  SignIn,
   SignedIn,
-  SignedOut,
-  UserButton,
 } from '@clerk/nextjs'
+import Navbar from "@/components/Navbar";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -36,13 +34,8 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <header className="flex justify-between">
-          <h1>OpenSauce</h1>
-          <UserButton showName/>
-        </header>
-        <SignedOut>
-            <SignIn routing='hash'/>
-        </SignedOut>
+        
+        <Navbar/>
         <SignedIn>
            {children}
         </SignedIn>
