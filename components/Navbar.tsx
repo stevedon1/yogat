@@ -7,7 +7,7 @@ import { FaHome } from 'react-icons/fa';
 
 export default function Navbar() {
   return (
-    <nav className="p-2 bg-slate-100 text-white shadow-md sticky top-0 z-50">
+    <nav className="p-2 w-full bg-slate-100 text-white shadow-md sticky top-0 z-50">
         <div className="flex justify-between">
           <Link href='/'>
           <Image

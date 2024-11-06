@@ -3,7 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import {
   ClerkProvider,
-  SignedIn,
+  // SignedIn,
 } from '@clerk/nextjs'
 import Navbar from "@/components/Navbar";
 
@@ -36,9 +36,10 @@ export default function RootLayout({
       >
         
         <Navbar/>
-        <SignedIn>
+        {/* <SignedIn>
            {children}
-        </SignedIn>
+        </SignedIn> */}
+        {children}
       </body>
     </html>
     </ClerkProvider>
