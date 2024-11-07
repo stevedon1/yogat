@@ -30,6 +30,11 @@ export const pages: Page[] = [
     link: "/tools-assets",
     path: "/tools-assets",
   },
+  {
+    name: "Calculator",
+    link: "/calculator",
+    path: "/calculator",
+  },
 ];
 export const stockList = [
   "250 ML Tumblers",
@@ -38,7 +43,7 @@ export const stockList = [
   "Lids 500 ML",
   "Cling",
   "Straws",
-  "Fare",
+  "Transport",
   "Strawberry Flavour",
   "Vanilla Flavour",
   "Chocolate Flavour",
