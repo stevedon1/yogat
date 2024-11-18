@@ -12,7 +12,7 @@ export const pages: Page[] = [
   },
   {
     name: "Debts",
-    link: "/debts",
+    link: "/debts/debtors",
     path: "/debts",
   },
   {

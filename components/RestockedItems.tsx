@@ -1,13 +1,21 @@
-"use client"
-import React, { useState } from 'react';
+"use client";
+import React, { useState, useEffect } from "react";
 
 interface RestockedItemsProps {
   selectedItems: string[];
+  setRestockedTotal: (total: number) => void; // Prop to pass total to parent
 }
 
-export default function RestockedItems({ selectedItems }: RestockedItemsProps) {
+export default function RestockedItems({ selectedItems, setRestockedTotal }: RestockedItemsProps) {
   const [itemsWithAmount, setItemsWithAmount] = useState<{ [key: string]: number }>({});
   const [totalAmount, setTotalAmount] = useState<number>(0);
+
+  // Update total and notify parent whenever itemsWithAmount changes
+  useEffect(() => {
+    const total = Object.values(itemsWithAmount).reduce((sum, amount) => sum + amount, 0);
+    setTotalAmount(total);
+    setRestockedTotal(total); // Pass the total to the parent component
+  }, [itemsWithAmount, setRestockedTotal]);
 
   const handleAmountChange = (item: string, amount: number) => {
     setItemsWithAmount(prev => ({
@@ -22,11 +30,6 @@ export default function RestockedItems({ selectedItems }: RestockedItemsProps) {
       delete updatedItems[item];
       return updatedItems;
     });
-  };
-
-  const handleCalculateTotal = () => {
-    const total = Object.values(itemsWithAmount).reduce((sum, amount) => sum + amount, 0);
-    setTotalAmount(total);
   };
 
   return (
@@ -47,8 +50,8 @@ export default function RestockedItems({ selectedItems }: RestockedItemsProps) {
               <td className="px-4 py-2">
                 <input
                   type="number"
-                  value={itemsWithAmount[item] || ''}
-                  onChange={(e) => handleAmountChange(item, parseFloat(e.target.value))}
+                  value={itemsWithAmount[item] || ""}
+                  onChange={(e) => handleAmountChange(item, parseFloat(e.target.value) || 0)}
                   className="border px-2 py-1 rounded-md w-full sm:w-24" // Responsive width, reduces on small devices
                 />
               </td>
@@ -64,14 +67,6 @@ export default function RestockedItems({ selectedItems }: RestockedItemsProps) {
           ))}
         </tbody>
       </table>
-      <div className="mt-4">
-        <button
-          onClick={handleCalculateTotal}
-          className="bg-indigo-500 text-white py-2 px-4 rounded-md"
-        >
-          Calculate Total
-        </button>
-      </div>
       {totalAmount > 0 && (
         <div className="mt-4 p-4 bg-gray-100 rounded-md">
           <h4 className="text-lg font-semibold">Total Amount Spent:</h4>

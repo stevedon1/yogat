@@ -1,13 +1,25 @@
-import React, { useState } from 'react';
+"use client";
+import React, { useState, useEffect } from "react";
 
 interface Expenditure {
   name: string;
   amount: number;
 }
 
-export default function OtherExpenditures() {
+interface OtherExpendituresProps {
+  setExpendituresTotal: (total: number) => void; // Prop to pass total to parent
+}
+
+export default function OtherExpenditures({ setExpendituresTotal }: OtherExpendituresProps) {
   const [expenditures, setExpenditures] = useState<Expenditure[]>([{ name: "", amount: 0 }]);
   const [totalExpenditure, setTotalExpenditure] = useState<number>(0);
+
+  // Automatically recalculate total when expenditures change
+  useEffect(() => {
+    const total = expenditures.reduce((sum, exp) => sum + (exp.amount || 0), 0);
+    setTotalExpenditure(total);
+    setExpendituresTotal(total); // Pass the total to the parent component
+  }, [expenditures, setExpendituresTotal]);
 
   const handleInputChange = (index: number, field: keyof Expenditure, value: string | number) => {
     const updatedExpenditures = [...expenditures];
@@ -19,9 +31,9 @@ export default function OtherExpenditures() {
     setExpenditures([...expenditures, { name: "", amount: 0 }]);
   };
 
-  const handleCalculateTotal = () => {
-    const total = expenditures.reduce((sum, exp) => sum + (exp.amount || 0), 0);
-    setTotalExpenditure(total);
+  const handleRemoveExpenditure = (index: number) => {
+    const updated = expenditures.filter((_, i) => i !== index);
+    setExpenditures(updated);
   };
 
   return (
@@ -32,7 +44,7 @@ export default function OtherExpenditures() {
           <div key={index} className="flex items-center mb-4">
             <input
               type="text"
-              placeholder="eg.Lunch"
+              placeholder="e.g., Lunch"
               value={expenditure.name}
               onChange={(e) => handleInputChange(index, "name", e.target.value)}
               className="border px-2 py-1 rounded-md mr-2 w-1/3"
@@ -41,16 +53,13 @@ export default function OtherExpenditures() {
               type="number"
               placeholder="Amount"
               value={expenditure.amount || ""}
-              onChange={(e) => handleInputChange(index, "amount", parseFloat(e.target.value))}
+              onChange={(e) => handleInputChange(index, "amount", parseFloat(e.target.value) || 0)}
               className="border px-2 py-1 rounded-md mr-2 w-1/3"
             />
             {expenditures.length > 1 && (
               <button
-                onClick={() => {
-                  const updated = expenditures.filter((_, i) => i !== index);
-                  setExpenditures(updated);
-                }}
-                className="text-red-500"
+                onClick={() => handleRemoveExpenditure(index)}
+                className="text-red-500 hover:text-red-700"
               >
                 Remove
               </button>
@@ -59,18 +68,12 @@ export default function OtherExpenditures() {
         ))}
       </div>
 
-      <div className="mt-4 flex justify-between">
+      <div className="mt-4">
         <button
           onClick={handleAddExpenditure}
           className="bg-indigo-500 text-white py-2 px-4 rounded-md"
         >
           Add Expense
-        </button>
-        <button
-          onClick={handleCalculateTotal}
-          className="bg-green-500 text-white py-2 px-4 rounded-md"
-        >
-          + Total Expenditure
         </button>
       </div>
 
