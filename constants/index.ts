@@ -6,9 +6,9 @@ interface Page {
 
 export const pages: Page[] = [
   {
-    name: "Stock",
-    link: "/stock",
-    path: "/stock",
+    name: "Daily Records",
+    link: "/daily-records",
+    path: "/daily-records",
   },
   {
     name: "Debts",

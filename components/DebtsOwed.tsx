@@ -1,7 +1,7 @@
-"use client"
-import React, { useState } from 'react';
-import { FaCheckCircle } from 'react-icons/fa';
-import { formatDate } from '../utils/index';
+"use client";
+import React, { useState, useEffect } from "react";
+import { FaCheckCircle } from "react-icons/fa";
+import { formatDate } from "../utils/index";
 
 interface Debtor {
   name: string;
@@ -12,53 +12,77 @@ interface Debtor {
 
 export default function Debtors() {
   const [debtors, setDebtors] = useState<Debtor[]>([]);
-  const [name, setName] = useState('');
+  const [name, setName] = useState("");
   const [amount, setAmount] = useState(0);
 
-  // Add or update a debtor's debt
-  const addOrUpdateDebtor = () => {
-    if (name && amount > 0) {
-      const existingDebtor = debtors.find(debtor => debtor.name === name);
-      if (existingDebtor) {
-        const updatedDebtors = debtors.map(debtor =>
-          debtor.name === name
-            ? {
-                ...debtor,
-                amountOwed: debtor.isPaidOff ? amount : debtor.amountOwed + amount,
-                debtDate: new Date().toISOString(),
-                isPaidOff: false,
-              }
-            : debtor
-        );
-        setDebtors(updatedDebtors);
-      } else {
-        // Add a new debtor
-        const newDebtor = {
+  // Fetch all debtors
+  const fetchDebtors = async () => {
+    try {
+      const response = await fetch("/api/debtors");
+      const result = await response.json();
+      if (result.success) {
+        setDebtors(result.data);
+      }
+    } catch (error) {
+      console.error("Error fetching debtors:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchDebtors();
+  }, []);
+
+  // Add or update a debtor
+  const addOrUpdateDebtor = async () => {
+    if (!name || amount <= 0) {
+      alert("Please fill in all fields.");
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/debtors", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
           name,
           amountOwed: amount,
-          debtDate: new Date().toISOString(),
-          isPaidOff: false,
-        };
-        setDebtors([...debtors, newDebtor]);
+        }),
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        fetchDebtors(); // Refresh the list
+        setName("");
+        setAmount(0);
+      } else {
+        alert(result.message);
       }
-      setName('');
-      setAmount(0);
-    } else {
-      alert('Please fill in all fields.');
+    } catch (error) {
+      console.error("Error adding/updating debtor:", error);
     }
   };
 
   // Mark a debtor as paid off
-  const clearDebt = (debtorName: string) => {
-    const updatedDebtors = debtors.map(debtor =>
-      debtor.name === debtorName
-        ? { ...debtor, isPaidOff: true }
-        : debtor
-    );
-    setDebtors(updatedDebtors);
+  const clearDebt = async (debtorName: string) => {
+    try {
+      const response = await fetch("/api/debtors", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: debtorName }),
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        fetchDebtors(); // Refresh the list
+      } else {
+        alert(result.message);
+      }
+    } catch (error) {
+      console.error("Error clearing debt:", error);
+    }
   };
 
-  // Calculate total amount owed (excluding paid debts)
+  // Total amount owed
   const totalAmount = debtors.reduce(
     (total, debtor) => (!debtor.isPaidOff ? total + debtor.amountOwed : total),
     0
@@ -67,8 +91,6 @@ export default function Debtors() {
   return (
     <div className="p-4">
       <h2 className="text-2xl font-bold mb-4">Who has your Debt?</h2>
-      
-      {/* Input fields for debtor's name and amount */}
       <div className="mb-4">
         <input
           type="text"
@@ -91,20 +113,21 @@ export default function Debtors() {
           Add/Update Debtor
         </button>
       </div>
-
-      {/* Displaying the list of debtors */}
       <div className="mb-4">
         <h3 className="text-xl font-semibold">Debtors List:</h3>
         <ul>
           {debtors.map((debtor, index) => (
             <li key={index} className="flex justify-between py-2 items-center">
-              <div className={`flex-grow ${debtor.isPaidOff ? "line-through text-gray-500" : ""}`}>
+              <div
+                className={`flex-grow ${
+                  debtor.isPaidOff ? "line-through text-gray-500" : ""
+                }`}
+              >
                 <span>{debtor.name}</span>
                 <span className="ml-4">{debtor.amountOwed} Ksh</span>
                 <span className="ml-4">{formatDate(debtor.debtDate)}</span>
               </div>
               <div className="flex items-center space-x-4">
-                {/* Icon to mark debt as paid */}
                 {!debtor.isPaidOff && (
                   <FaCheckCircle
                     onClick={() => clearDebt(debtor.name)}
@@ -118,8 +141,6 @@ export default function Debtors() {
           ))}
         </ul>
       </div>
-
-      {/* Display total amount */}
       <div className="font-bold">
         <h3>Total Amount Owed: {totalAmount} Ksh</h3>
       </div>
