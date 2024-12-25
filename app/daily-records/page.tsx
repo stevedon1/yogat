@@ -53,17 +53,17 @@ export default function page() {
       key={stock._id}
       className="w-full h-32 font-sans bg-gray-200 px-4 rounded-lg shadow-md mx-auto mb-2 shadow-indigo-500/50"
     >
-      <h1 className="text-lg font-semibold text-gray-800 mb-2">
+      <h1 className="text-sm font-semibold text-gray-600 mb-2">
         {formatDateLong(new Date(stock.date))}
       </h1>
-      <p className="text-gray-800">
+      <p className="text-gray-900">
         <span className="font-medium">Amount for stock:</span> {stock.stockTotal} Ksh
       </p>
       <p className="text-gray-800">
         <span className="font-medium">Other Expenses:</span> {stock.otherExpensesTotal} Ksh
       </p>
       <p className="text-gray-900 font-bold mt-2">
-        <span className="font-medium">Total:</span> {stock.grandTotal} Ksh
+        <span className="font-bold">Total:</span> {stock.grandTotal} Ksh
       </p>
     </Link>
   ))}
