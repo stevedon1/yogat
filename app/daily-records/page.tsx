@@ -57,7 +57,7 @@ export default function page() {
     <div className='w-full'>
       <div className="flex justify-between items-center mx-6 mt-4 mb-4">
   <h1 className="font-bold font-sans text-xl bg-indigo-100 px-4 rounded-md">
-    Your <span className="text-xl text-indigo-500">Daily</span> Records
+    Your <span className="text-xl text-indigo-600">Daily</span> Records
   </h1>
   <Link
     href="/stock"
