@@ -5,4 +5,13 @@ export function formatDate(date: string) {
       year: 'numeric',
     });
   }
+
+  export function formatDateLong(date: Date): string {
+    return date.toLocaleDateString("en-US", {
+      weekday: "long",
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    });
+  }
   
