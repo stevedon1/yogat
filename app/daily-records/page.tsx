@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import React from 'react'
 import { formatDateLong } from '@/utils'
+import { FaPlus } from 'react-icons/fa';
 
 export default function page() {
     const data = [
@@ -54,7 +55,19 @@ export default function page() {
       
   return (
     <div className='w-full'>
-      <h1 className='font-bold mt-2 mb-2 text-center text-xl'>Your <span className='text-xl text-indigo-500'>Daily</span> Records</h1>
+      <div className="flex justify-between items-center mx-6 mt-4 mb-4">
+  <h1 className="font-bold font-sans text-xl bg-indigo-100 px-4 rounded-md">
+    Your <span className="text-xl text-indigo-500">Daily</span> Records
+  </h1>
+  <Link
+    href="/stock"
+    className="flex items-center space-x-1 bg-indigo-600 text-white px-3 py-2 rounded-md hover:bg-indigo-700"
+  >
+    <FaPlus className="text-white text-lg" />
+    <p>Add Stock</p>
+  </Link>
+</div>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       {data.length === 0 && (
   <div className="flex flex-col items-center justify-center bg-gray-100 p-6 rounded-lg shadow-md w-full max-w-lg mx-auto">
@@ -77,7 +90,7 @@ export default function page() {
     <Link
       href="/"
       key={stock._id}
-      className="w-full h-32 bg-gray-200 px-4 rounded-lg shadow-md mx-auto mb-2 shadow-indigo-500/50"
+      className="w-full h-32 font-sans bg-gray-200 px-4 rounded-lg shadow-md mx-auto mb-2 shadow-indigo-500/50"
     >
       <h1 className="text-lg font-semibold text-gray-800 mb-2">
         {formatDateLong(new Date(stock.date))}
