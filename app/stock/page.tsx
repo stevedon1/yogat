@@ -4,8 +4,10 @@ import AccordionStockList from "@/components/AccordionStockList";
 import AmountSpentToday from "@/components/AmountSpentToday";
 import OtherExpenditures from "@/components/OtherExpenditures";
 import RestockedItems from "@/components/RestockedItems";
+import { useRouter } from "next/navigation";
 
 export default function Stock() {
+  const router = useRouter()
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [restockedTotal, setRestockedTotal] = useState<number>(0);
   const [otherExpendituresTotal, setOtherExpendituresTotal] = useState<number>(0);
@@ -18,8 +20,8 @@ export default function Stock() {
     // Validation: Ensure there is data to save
     if (
       restockedTotal === 0 &&
-      otherExpendituresTotal === 0 &&
-      selectedItems.length === 0
+       selectedItems.length === 0 
+      // otherExpendituresTotal === 0
     ) {
       alert("Cannot save empty data. Please enter valid amounts.");
       return;
@@ -56,6 +58,7 @@ export default function Stock() {
         setOtherExpendituresTotal(0);
         setStockAmounts({});
         setOtherExpenses({});
+        router.push("/daily-records")
       } else {
         alert("Failed to save record.");
       }
