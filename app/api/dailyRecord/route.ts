@@ -30,3 +30,23 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: false, message: 'Error saving record.' }, { status: 500 });
   }
 }
+
+// GET METHOD
+export async function GET() {
+  try {
+    // Connect to the MongoDB collection
+     await connectToDatabase();
+
+    // Fetch data from the collection
+    const data = await DailyRecord.find();
+
+    // Respond with the fetched data
+    return NextResponse.json({ success: true, data });
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    return NextResponse.json(
+      { success: false, error: "Failed to fetch data from MongoDB." },
+      { status: 500 }
+    );
+  }
+}
