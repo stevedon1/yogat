@@ -21,11 +21,16 @@ export default function Page() {
             new Date(b.date).getTime() - new Date(a.date).getTime()
         );
         setData(sortedRecords); // Set the sorted data
-      } catch (error: any) {
-        console.log(error.message);
+      } catch (error: unknown) { // Use unknown instead of any
+        if (error instanceof Error) {
+          console.log(error.message); // Safely access error.message
+        } else {
+          console.log("An unknown error occurred");
+        }
       } finally {
         setLoading(false); // Stop loading
       }
+      
     };
     fetchDailyRecords();
   }, []);
