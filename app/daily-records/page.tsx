@@ -55,7 +55,7 @@ export default function Page() {
         ) : data.length > 0 ? ( // Show records if data exists
           data.map((stock) => (
             <Link
-              href="/"
+              href={`/daily-records/${stock._id}`}
               key={stock._id}
               className="w-full h-32 font-sans bg-gray-200 px-4 rounded-lg shadow-md mx-auto mb-2 shadow-indigo-500/50"
             >
