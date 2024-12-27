@@ -1,4 +1,4 @@
-import { SignedOut, SignIn, UserButton } from '@clerk/nextjs'
+
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
@@ -21,11 +21,8 @@ export default function Navbar() {
           <Link href='/'>
           <FaHome className="text-4xl  text-gray-900 hover:cursor-pointer hover:text-indigo-500 transition" />
           </Link>
-          <UserButton showName/>
+
         </div>
-        <SignedOut>
-            <SignIn routing='hash'/>
-        </SignedOut>
     </nav>
   )
 }

@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import {
-  ClerkProvider,
-  SignedIn,
-} from '@clerk/nextjs'
+
 import Navbar from "@/components/Navbar";
 
 const geistSans = localFont({
@@ -29,18 +26,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         
         <Navbar/>
-        <SignedIn>
            {children}
-        </SignedIn>
       </body>
     </html>
-    </ClerkProvider>
   );
 }
