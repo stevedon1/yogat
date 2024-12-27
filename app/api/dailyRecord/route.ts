@@ -34,7 +34,6 @@ export async function POST(req: Request) {
 // GET METHOD
 export async function GET() {
   try {
-    // Connect to the MongoDB collection
      await connectToDatabase();
 
     // Fetch data from the collection
