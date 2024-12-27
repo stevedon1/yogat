@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 // Function to fetch data from your API
 async function fetchRecordById(_id) {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL === "production" ? "https://open-sauce-yogat.vercel.app" : "http://localhost:3000"
   const response = await fetch(`${baseUrl}/api/dailyRecord/${_id}`);
 
   if (!response.ok) {
