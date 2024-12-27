@@ -17,11 +17,11 @@ export default function Page() {
         }
         const result = await response.json();
         const sortedRecords = result.data.sort(
-          (a: { date: string | number | Date }, b: { date: string | number | Date }) =>
+          (a, b) =>
             new Date(b.date).getTime() - new Date(a.date).getTime()
         );
         setData(sortedRecords); // Set the sorted data
-      } catch (error: unknown) { // Use unknown instead of any
+      } catch (error) { // Use unknown instead of any
         if (error instanceof Error) {
           console.log(error.message); // Safely access error.message
         } else {

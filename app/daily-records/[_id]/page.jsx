@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
 // Function to fetch data from your API
-async function fetchRecordById(_id: string) {
+async function fetchRecordById(_id) {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
   const response = await fetch(`${baseUrl}/api/dailyRecord/${_id}`);
 
@@ -13,7 +13,7 @@ async function fetchRecordById(_id: string) {
   return result.data; // Assuming the API response structure
 }
 
-export default async function page({ params }: { params: { _id: string } }) {
+export default async function page({ params }) {
   const { _id } = params
   let record;
   try {

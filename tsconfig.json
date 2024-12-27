@@ -22,6 +22,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "lib/mongodb.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "lib/mongodb.js", "app/api/dailyRecord/[_id]/route.js", "app/daily-records/[_id]/page.jsx", "app/daily-records/page.jsx"],
   "exclude": ["node_modules"]
 }

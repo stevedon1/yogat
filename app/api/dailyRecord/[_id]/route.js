@@ -1,10 +1,9 @@
 import { NextResponse } from "next/server";
-import connectToDatabase from '@/lib/mongodb';
+import connectToDatabase from "@/lib/mongodb";
 import { Types } from "mongoose";
 import DailyRecord from "@/models/DailyRecord";
 
-// GET /api/records/:id
-export async function GET(request: Request,{ params }: { params: { _id: string } }) {
+export async function GET(request, { params }) {
   const { _id } = params;
 
   if (!Types.ObjectId.isValid(_id)) {
@@ -34,7 +33,3 @@ export async function GET(request: Request,{ params }: { params: { _id: string }
     );
   }
 }
-
-
-
-// process.env.NEXT_PUBLIC_BASE_URL}/api/records/${_id}
